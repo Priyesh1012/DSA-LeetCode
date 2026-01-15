@@ -10,8 +10,8 @@ Repository Overview:-
 > Useful for interview preparation and concept revision
 
 Programming Languages Used:-
-> C++
-> Java
+> C++,
+> Java,
 Additional languages may be added in the future.
 
 Purpose of This Repository:-
