@@ -11,28 +11,86 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-         ListNode* dummy = new ListNode(0);
-        ListNode* temp = dummy;
-        int carry = 0;
-
-        while (l1 != NULL || l2 != NULL || carry) {
-            int sum = carry;
-
-            if (l1 != NULL) {
-                sum += l1->val;
-                l1 = l1->next;
+        
+        if(l1 == NULL){
+            return l2;
+        }
+        if(l2 == NULL){
+            return l1;
+        }
+        
+        ListNode* temp1 = l1;
+        ListNode* temp2 = l2;
+        ListNode* total;
+        int carry =  0;
+        int sum = temp1->val + temp2->val + carry;
+        if(sum > 9){
+                total = new ListNode(sum % 10);
+                carry = 1;
+        }
+        else{
+            total = new ListNode(sum+carry);
+            carry = 0;
+        }
+        temp1 = temp1->next;
+        temp2 = temp2->next;
+        ListNode* key = total;
+        while(temp1 != NULL & temp2 != NULL){
+            int sum = temp1->val + temp2->val + carry;
+            if(sum > 9){
+                key->next = new ListNode(sum % 10);
+                carry = 1;
             }
-
-            if (l2 != NULL) {
-                sum += l2->val;
-                l2 = l2->next;
+            else{
+              key->next = new ListNode(sum);
+              carry = 0;
             }
-
-            carry = sum / 10;
-            temp->next = new ListNode(sum % 10);
-            temp = temp->next;
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+            key = key->next;
         }
 
-        return dummy->next;
+        if(temp1 != NULL && carry == 0){
+            key->next = temp1;
+        }
+        else{
+            while(temp1 != NULL){
+                int sum = temp1->val + carry;
+                if(sum > 9){
+                    key->next = new ListNode(sum % 10);
+                    carry = 1;
+                }
+                else{
+                key->next = new ListNode(sum);
+                carry = 0;
+                }
+                temp1 = temp1->next;
+                key = key->next;
+            }
+        }
+        if(temp2 != NULL && carry == 0){
+            key->next = temp2;
+        }
+        else{
+            while(temp2 != NULL){
+                int sum = temp2->val+carry;
+                if(sum > 9){
+                    key->next = new ListNode(sum % 10);
+                    carry = 1;
+                }
+                else{
+                key->next = new ListNode(sum);
+                carry = 0;
+                }
+                temp2 = temp2->next;
+                key = key->next;
+            }
+        }
+        if(carry == 1){
+
+            key->next = new ListNode(1);
+        }
+        
+        return total;
     }
 };
